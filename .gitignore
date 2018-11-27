@@ -1,5 +1,6 @@
 # Prerequisites
 *.d
+*~
 
 # Compiled Object files
 *.slo
@@ -30,3 +31,7 @@
 *.exe
 *.out
 *.app
+
+# Specific files
+/Users/mac/repos/adventofcode/adventofcode_day_1_part_1
+/Users/mac/repos/adventofcode/adventofcode_day_1_part_2
