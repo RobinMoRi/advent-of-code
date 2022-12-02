@@ -1,18 +1,9 @@
 const path = require('path');
-const fs = require('fs');
+const { syncReadFile } = require('../readFile')
 
-function syncReadFile(filename) {
-  const arr = fs
-  .readFileSync(path.join(__dirname, filename), 'utf8')
-  .toString()
-  .trim()
-  .split('\n')
-  .map((cal) => parseInt(cal))
-  return arr;
-}
-
-const arr = syncReadFile('input.txt');
-// const arr = syncReadFile('test.txt');
+const mode = process.argv[2];
+const inputFile = mode === 'test' ? 'test.txt' : 'input.txt';
+const arr = syncReadFile(path.join(__dirname, inputFile)).map((cal) => parseInt(cal));
 
 let count = 0; //count reindeers
 let sum = 0; //sum each reindeers calories
@@ -27,7 +18,5 @@ for(let i = 0; i < arr.length; i++){
     sum += arr[i];
   }
 }
-
 const sortedCalories = calories.sort((a,b) => b-a);
-
 console.log(sortedCalories[0] + sortedCalories[1] + sortedCalories[2])
