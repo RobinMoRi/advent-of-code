@@ -1,23 +1,20 @@
 const path = require('path');
-const fs = require('fs');
-const { platform } = require('os');
+const { syncReadFile } = require('../readFile')
 
-function syncReadFile(filename) {
-  const arr = fs
-  .readFileSync(path.join(__dirname, filename), 'utf8')
-  .toString()
-  .trim()
-  .split('\n')
-  .map((el) => {
-      const opponent = el.split(' ')[0];
-      const player = el.split(' ')[1];
-      return {opponent, player};
-  })
-  return arr;
+const mode = process.argv[2];
+let inputFile = '';
+if(mode === 'test'){
+    inputFile = 'test.txt';
+}else{
+    inputFile = 'input.txt';
 }
+const arr = syncReadFile(path.join(__dirname, inputFile))
+                .map((el) => {
+                    const opponent = el.split(' ')[0];
+                    const player = el.split(' ')[1];
+                    return {opponent, player};
+                })
 
-const arr = syncReadFile('input.txt');
-// const arr = syncReadFile('test.txt');
 
 const points = {
     X: 1,
