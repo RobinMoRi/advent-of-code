@@ -10,16 +10,21 @@ const arr = syncReadFile(path.join(__dirname, inputFile))
         return {comp1, comp2}
     });
 
+const A_ASCII = 'A'.charCodeAt(0);
+const Z_ASCII = 'Z'.charCodeAt(0);
+const a_ASCII = 'a'.charCodeAt(0);
+const z_ASCII = 'z'.charCodeAt(0);
+
 let sum = 0;
 for(let rucksack of arr){
     const regexp = new RegExp(`[^${rucksack.comp2}]`, 'g');
     const commonCharCode = rucksack.comp1.replace(regexp, '').charCodeAt(0);
-    
+
     //ASCII 97 through 122 (lower case a-z): prio 1-26
-    if(commonCharCode >= 97 && commonCharCode <= 122) sum += commonCharCode - 96;
+    if(commonCharCode >= a_ASCII && commonCharCode <= z_ASCII) sum += commonCharCode - 96;
 
     //ASCII 65 through 90 (uppcase A-Z): prio 27-52
-    if(commonCharCode >= 65 && commonCharCode <= 90) sum += commonCharCode - 38;
+    if(commonCharCode >= A_ASCII && commonCharCode <= Z_ASCII) sum += commonCharCode - 38;
 
 }
 console.log(sum);
