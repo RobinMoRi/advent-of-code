@@ -1,4 +1,3 @@
-const { SSL_OP_MSIE_SSLV2_RSA_PADDING } = require('constants');
 const path = require('path');
 const { syncReadFile } = require('../readFile')
 
