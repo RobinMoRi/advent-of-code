@@ -1,5 +1,3 @@
-console.log('Starting part 1');
-
 const path = require('path');
 const fs = require('fs');
 

@@ -2,12 +2,7 @@ const path = require('path');
 const { syncReadFile } = require('../readFile')
 
 const mode = process.argv[2];
-let inputFile = '';
-if(mode === 'test'){
-    inputFile = 'test.txt';
-}else{
-    inputFile = 'input.txt';
-}
+const inputFile = mode === 'test' ? 'test.txt' : 'input.txt';
 const arr = syncReadFile(path.join(__dirname, inputFile))
                 .map((el) => {
                     const opponent = el.split(' ')[0];
