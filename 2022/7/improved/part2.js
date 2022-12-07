@@ -1,7 +1,7 @@
 const path = require('path');
 const util = require('util');
 const { syncReadFile } = require('../../readFile');
-const { buildFileTree } = require('./utils');
+const { Tree } = require('./utils');
 const { DISK_AVAILABLE, UNUSED_SPACE_NEEDED } = require('./constants')
 
 const mode = process.argv[2];
@@ -35,7 +35,8 @@ function deleteFile(root){
     return Math.min(...filesToDelete);
 }
 
-let fileSys = buildFileTree(input);
+const tree = new Tree();
+let fileSys = tree.build(input);
 treeTraversal(fileSys.root);
 console.log(util.inspect(fileSys, false, null, true))
 console.log(deleteFile(fileSys.root))

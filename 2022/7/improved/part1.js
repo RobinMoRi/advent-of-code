@@ -1,7 +1,7 @@
 const path = require('path');
 const util = require('util');
 const { syncReadFile } = require('../../readFile')
-const { buildFileTree } = require('./utils')
+const { Tree } = require('./utils')
 
 const mode = process.argv[2];
 const inputFile = mode === 'test' ? 'test.txt' : 'input.txt';
@@ -32,7 +32,8 @@ function sumFiles(root){
     return sum;
 }
 
-let fileSys = buildFileTree(input);
+const tree = new Tree();
+let fileSys = tree.build(input);
 treeTraversal(fileSys.root);
 console.log(util.inspect(fileSys, false, null, true))
 console.log(sumFiles(fileSys.root))
