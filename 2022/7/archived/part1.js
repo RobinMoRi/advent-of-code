@@ -1,6 +1,6 @@
 const path = require('path');
 const util = require('util');
-const { syncReadFile } = require('../readFile')
+const { syncReadFile } = require('../../readFile')
 const { parseFileSys } = require('./utils')
 
 const mode = process.argv[2];
