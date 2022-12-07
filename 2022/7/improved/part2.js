@@ -1,7 +1,7 @@
 const path = require('path');
 const util = require('util');
 const { syncReadFile } = require('../../readFile');
-const { Tree } = require('./utils');
+const { Tree } = require('./tree');
 const { DISK_AVAILABLE, UNUSED_SPACE_NEEDED } = require('./constants')
 
 const mode = process.argv[2];

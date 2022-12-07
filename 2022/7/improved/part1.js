@@ -1,7 +1,7 @@
 const path = require('path');
 const util = require('util');
 const { syncReadFile } = require('../../readFile')
-const { Tree } = require('./utils')
+const { Tree } = require('./tree')
 
 const mode = process.argv[2];
 const inputFile = mode === 'test' ? 'test.txt' : 'input.txt';
