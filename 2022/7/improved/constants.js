@@ -1,0 +1,7 @@
+const DISK_AVAILABLE = 70000000;
+const UNUSED_SPACE_NEEDED = 30000000;
+
+module.exports = {
+    DISK_AVAILABLE,
+    UNUSED_SPACE_NEEDED
+};

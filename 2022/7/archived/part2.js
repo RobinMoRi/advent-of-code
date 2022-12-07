@@ -22,7 +22,7 @@ function treeTraversal(node) {
 let fileSys = parseFileSys(input);
 treeTraversal(fileSys['/']);
 
-//PART 2 start: 
+//PART 2 start:
 const rootDirSize = fileSys['/'].totalFileSize;
 const current_unused_space = DISK_AVAILABLE - rootDirSize;
 const filesToDelete = [];
