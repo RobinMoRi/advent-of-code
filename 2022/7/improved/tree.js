@@ -21,11 +21,8 @@ class Tree{
             }
             else if(data[1] === 'cd'){
                 let newNode = new Node(data[2], 0, currentNode);
-                if(this.root === null){
-                    this.root = newNode;
-                }else{
-                    currentNode.children.push(newNode);
-                }
+                if(this.root === null) this.root = newNode;
+                else currentNode.children.push(newNode);
                 currentNode = newNode;
             }
             else if(data[0].match(/[0-9]+/)){
