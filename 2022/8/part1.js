@@ -1,6 +1,6 @@
 const path = require('path');
 const { syncReadFile } = require('../readFile')
-const { buildColumns, isOnEdge, lookAround, isVisisble } = require('./utils')
+const { buildColumns, lookAround, isVisisble } = require('./utils')
 
 const mode = process.argv[2];
 const inputFile = mode === 'test' ? 'test.txt' : 'input.txt';
