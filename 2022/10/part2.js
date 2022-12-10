@@ -39,7 +39,7 @@ function cycleInstructions(input){
         if((X === currIdx) || (X-1 === currIdx) || (X+1 === currIdx)){
             CRT[CRT.length - 1] += '#'
         }else{
-            CRT[CRT.length - 1] += '.'
+            CRT[CRT.length - 1] += ' '
         }
 
         //Unlock if instruction is done (addx takes 2 cycles, noop 1 cycle)
@@ -58,4 +58,6 @@ function cycleInstructions(input){
 
 
 let {CRT} = cycleInstructions(input);
-console.log(CRT)
+for(line of CRT){
+    console.log(line)
+}
