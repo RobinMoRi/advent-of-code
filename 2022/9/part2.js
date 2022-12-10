@@ -35,7 +35,7 @@ function move(input){
                 // Update tail if not adjacent to previous node 
                 if(!isAdjacent(currNode.prev.x, currNode.prev.y, currNode.x, currNode.y)){
                     //previous node is head relative current node
-                    moveTail(currNode.prev, currNode, direction, instruction);
+                    moveTail(currNode.prev, currNode);
                 }
                 currNode = currNode.next;
             }
