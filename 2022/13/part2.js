@@ -1,5 +1,5 @@
 const util = require('util');
-const { processData, stringToArray } = require('./util');
+const { processData } = require('./util');
 
 const pairs = processData();
 
