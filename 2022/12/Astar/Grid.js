@@ -10,6 +10,7 @@ class GridPoint{
         this.parent = undefined; // immediate source of the current grid point
     }
 
+    //Sets neighbours of gridpoint. Only set neighbours which are max distance of 1 (comparing charcodes)
     updateNeighbors(grid) {
       let gridCols = grid.cols;
       let gridRows = grid.rows;
@@ -45,21 +46,6 @@ class GridPoint{
           this.neighbors.push(gridPoints[i][j+1]);
         }
       }
-
-
-      // if ( < rows - 1) {
-      //   this.neighbors.push(gridPoints[i + 1][j]);
-      // }
-      // if (i > 0) {
-      //   this.neighbors.push(gridPoints[i - 1][j]);
-      // }
-      
-      // if (j < cols - 1) {
-      //   this.neighbors.push(gridPoints[i][j + 1]);
-      // }
-      // if (j > 0) {
-      //   this.neighbors.push(gridPoints[i][j - 1]);
-      // }
     };
 }
 
