@@ -8,9 +8,6 @@ let count = 1;
 let board = [[...emptyRow], [...emptyRow], [...emptyRow]];
 let rocks = 0;
 while(rocks < 2022){
-    // if(data.length <= 0) data = processData().reverse(); //re-read data
-    
-    
     //Init rockshape to loop through
     let rockShape = createRockShape(count);
     rocks++;
