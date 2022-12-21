@@ -32,6 +32,7 @@ function setVal(node){
         }
 }
 
+//From root, returns path to given node (starts from node and traverse up to root)
 function getPath(end){
     let path = [];
     let curr = end;
@@ -48,6 +49,7 @@ function getPath(end){
     return path.reverse();
 }
 
+//Get node 
 function getNode(root, name){
     let stack = [];
     stack.push(root);
@@ -59,7 +61,7 @@ function getNode(root, name){
     }
 }
 
-//recursively set vals to each node
+//From root, got down all the way down to humn to compute the correct val for humn with new circumstances
 function getHumnVal(root, path){
     let right = setVal(root.right);
     let curr = root.left;
@@ -86,10 +88,12 @@ function getHumnVal(root, path){
         else if(curr.operation === '+'){
             next.val = curr.val - val;
         }
-        else if(curr.operation === '-'){
+        else if(curr.operation === '-' && nextDirection === 'left'){
             next.val = curr.val + val;
         }
-        console.log({currVal: curr.val, nextVal: next.val, otherVal: val, operation: curr.operation})
+        else if(curr.operation === '-' && nextDirection === 'right'){
+            next.val = val - curr.val;
+        }
 
         curr = next;
 
@@ -97,8 +101,6 @@ function getHumnVal(root, path){
     return curr;
 }
 
-let rootVal = setVal(tree.root);
-console.log('root val: ', tree.root.val, tree.root.left.val, tree.root.right.val);
 let humn = getNode(tree.root, 'humn');
 let humnEqualized = getHumnVal(tree.root, getPath(humn));
-console.log(humnEqualized.name, 'value: ', humnEqualized.val);
+console.log(humnEqualized.name, 'should shout the following value for equality: ', humnEqualized.val);
