@@ -104,3 +104,7 @@ function getHumnVal(root, path){
 let humn = getNode(tree.root, 'humn');
 let humnEqualized = getHumnVal(tree.root, getPath(humn));
 console.log(humnEqualized.name, 'should shout the following value for equality: ', humnEqualized.val);
+//Below will verify that the computed value in fact gives us two equal branches
+humn.val = humnEqualized.val;
+setVal(tree.root);
+console.log({rootVal: tree.root.val, leftVal: tree.root.left.val, rightVal: tree.root.right.val})
