@@ -1,4 +1,3 @@
-const { monitorEventLoopDelay } = require('perf_hooks');
 const util = require('util');
 const { processData } = require('./util');
 

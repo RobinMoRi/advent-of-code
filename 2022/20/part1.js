@@ -1,4 +1,3 @@
-const { monitorEventLoopDelay } = require('perf_hooks');
 const util = require('util');
 const { processData } = require('./util');
 
@@ -16,8 +15,6 @@ function mix(data){
         let currIdx = ref.findIndex(el => el.ref === copyRef[i].ref);
         let moveToIdx = (currIdx + copyRef[i].val) % (LENGTH - 1);
         moveToIdx = moveToIdx === 0 ? LENGTH-1 : moveToIdx; //Zero-index outcome will be put at end of list.
-
-        //Delete item and insert at new position
         ref.splice(currIdx, 1);
         ref.splice(moveToIdx, 0, copyRef[i]);
     }
