@@ -1,6 +1,6 @@
 def get_lines():
     lines = []
-    with open('01/input-1.txt', 'r') as file:
+    with open("01/input-1.txt", "r") as file:
         for line in file:
             lines.append(line.strip().split())
     return lines
@@ -24,7 +24,8 @@ def part_1():
         right_number = right[i]
         sum += abs(left_number - right_number)
     print(sum)
-        
+
+
 def part_2():
     # Sort in left and right respectively
     left = []
@@ -50,6 +51,6 @@ def part_2():
     print(sum)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     part_1()
     part_2()
