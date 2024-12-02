@@ -13,9 +13,8 @@ def get_lines(filename: str):
 
 
 def is_safe(nums: list[int]):
-
+    # There are probably some edge case that this does not work for - who cares?
     should_decrease = (nums[-1] - nums[0]) < 0
-    diffs = []
     for i in range(1, len(nums)):
         first = nums[i - 1]
         second = nums[i]
@@ -28,9 +27,6 @@ def is_safe(nums: list[int]):
 
         if abs(second - first) < 1 or abs(second - first) > 3:
             return False, i
-
-        diffs.append(second - first)
-        should_decrease = (second - first) < 0
 
     return True, i
 
@@ -62,7 +58,6 @@ def part_2(file: str = "input-1.txt"):
             if nums[-1] == nums[idx]:
                 return False
             new_nums = nums[0:idx] + nums[idx + 1 :]
-            print(new_nums)
             return _is_safe_inner(new_nums)
         return True
 
