@@ -73,7 +73,6 @@ def correct_update(update: str, rules: list[str]):
         return update
 
     # switch place on the indices that are bad
-
     update = update.split(",")
     temp = update[idx]
     update[idx] = update[idx + 1]
