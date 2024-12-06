@@ -33,36 +33,28 @@ def part_1(file: str = "input.txt"):
         if len(guard_pos) > 0:
             break
 
-    visited = [guard_pos]
+    visited = []
     max_col = len(lines[0])
     max_row = len(lines)
     curr_direction = "up"
     row = guard_pos[0]
     col = guard_pos[1]
+
+    directions = {
+        "up": {"X": 0, "Y": -1, "turn": "right"},
+        "right": {"X": 1, "Y": 0, "turn": "down"},
+        "down": {"X": 0, "Y": 1, "turn": "left"},
+        "left": {"X": -1, "Y": 0, "turn": "up"},
+    }
     while row < max_row and col < max_col and row >= 0 and col >= 0:
-        if curr_direction == "up":
-            if is_obstacle_at_idx(row - 1, col, lines):
-                curr_direction = "right"
-            else:
-                row -= 1
+        new_col = directions[curr_direction]["X"] + col
+        new_row = directions[curr_direction]["Y"] + row
 
-        if curr_direction == "right":
-            if is_obstacle_at_idx(row, col + 1, lines):
-                curr_direction = "bottom"
-            else:
-                col += 1
-
-        if curr_direction == "bottom":
-            if is_obstacle_at_idx(row + 1, col, lines):
-                curr_direction = "left"
-            else:
-                row += 1
-
-        if curr_direction == "left":
-            if is_obstacle_at_idx(row, col - 1, lines):
-                curr_direction = "up"
-            else:
-                col -= 1
+        if is_obstacle_at_idx(new_row, new_col, lines):
+            curr_direction = directions[curr_direction]["turn"]
+        else:
+            row = new_row
+            col = new_col
 
         if [row, col] not in visited:
             visited.append([row, col])
