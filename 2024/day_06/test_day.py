@@ -6,4 +6,4 @@ def test_part_1():
 
 
 def test_part_2():
-    assert part_2("test.txt") == 0
+    assert part_2("test.txt") == 6

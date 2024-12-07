@@ -1,4 +1,5 @@
 import os
+import time
 
 
 def get_lines(filename: str):
@@ -61,19 +62,73 @@ def part_1(file: str = "input.txt"):
 
     count = len(visited) - 1  # off by one...
 
-    print("---- Part 1 ----")
+    print("\n\n---- Part 1 ----")
     print(f"count: {count}")
     return count
 
 
 def part_2(file: str = "input.txt"):
-    # lines = get_lines(file)
+    start = time.time()
+    lines = get_lines(file)
 
-    count = 0
+    guard_pos = []
+    for row in range(len(lines)):
+        for col in range(len(lines[0])):
+            if lines[row][col] == "^":
+                guard_pos = [row, col]
+                break
+        if len(guard_pos) > 0:
+            break
 
-    print("\n---- Part 2 ----")
-    print(f"count: {count}")
-    return count
+    directions = {
+        "up": {"X": 0, "Y": -1, "turn": "right"},
+        "right": {"X": 1, "Y": 0, "turn": "down"},
+        "down": {"X": 0, "Y": 1, "turn": "left"},
+        "left": {"X": -1, "Y": 0, "turn": "up"},
+    }
+
+    max_row, max_col = len(lines), len(lines[0])
+    obstructions = []
+    for i in range(len(lines)):
+        for j in range(len(lines[0])):
+            if lines[i][j] == ".":
+                obstructions.append((i, j))
+
+    number_infinite_loops = 0
+    for obstruction in obstructions:
+        visited = set()
+        curr_direction = "up"
+        row, col = guard_pos
+
+        is_infinite = False
+
+        while 0 <= row < max_row and 0 <= col < max_col:
+            new_col = directions[curr_direction]["X"] + col
+            new_row = directions[curr_direction]["Y"] + row
+
+            if is_obstacle_at_idx(new_row, new_col, lines) or obstruction == (
+                new_row,
+                new_col,
+            ):
+                curr_direction = directions[curr_direction]["turn"]
+            else:
+                row = new_row
+                col = new_col
+
+            position = (row, col, curr_direction)
+            if position in visited:
+                is_infinite = True
+                break
+
+            visited.add(position)
+
+        if is_infinite:
+            number_infinite_loops += 1
+    elapsed = time.time() - start
+    print("\n---- Part 2.1 ----")
+    print(f"count: {number_infinite_loops}")
+    print("elapsed time: %5.2fs" % elapsed)
+    return number_infinite_loops
 
 
 if __name__ == "__main__":
