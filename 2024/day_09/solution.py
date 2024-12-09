@@ -106,12 +106,15 @@ def part_2(file: str = "input.txt"):
             start_empty, end_empty = empty_block
             empty_block_length = end_empty - start_empty + 1
 
+            # Stop looking: cannot add block to right of itself
             if start < start_empty and end < end_empty:
                 break
 
+            # If block of file fits in space of empty block, then update its start and end position
             if empty_block_length >= block_length:
-                # set new indices for block
                 disk[key] = [start_empty, start_empty + block_length - 1]
+
+                # Empty block now gets smaller
                 empty_blocks[idx] = [start_empty + block_length, end_empty]
                 break
 
