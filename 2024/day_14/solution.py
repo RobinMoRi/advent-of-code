@@ -106,7 +106,7 @@ def animate_frames(frames):
         sys.stdout.write("\x1b[3J\x1b[2J\x1b[H")
         sys.stdout.write(frame)
         sys.stdout.flush()
-        time.sleep(0.1)
+        time.sleep(0.2)
 
 
 def part_1(part=1, file: str = "input.txt", max_cols=101, max_rows=103, seconds=100):
@@ -142,12 +142,8 @@ def part_1(part=1, file: str = "input.txt", max_cols=101, max_rows=103, seconds=
 
             robots[robot_id] = [x, y, dx, dy]
 
-        if majority_robots_exist_in_quadrant(
-            robots, quadrants, num_robots, threshold=0.3
-        ):
-            frames.append(
-                draw_frame(robots, max_cols=max_cols, max_rows=max_rows, idx=idx)
-            )
+        if idx > 7800:
+            print(draw_frame(robots, max_cols=max_cols, max_rows=max_rows, idx=idx))
             if majority_robots_exist_in_quadrant(
                 robots, quadrants, num_robots, threshold=0.5
             ):
@@ -155,7 +151,7 @@ def part_1(part=1, file: str = "input.txt", max_cols=101, max_rows=103, seconds=
             # print(f"\n----- AFTER {idx+1} seconds -----\n")
             # print(draw_frame(robots, max_cols=max_cols, max_rows=max_rows), "\n")
 
-    animate_frames(frames)
+    # animate_frames(frames)
     robots_counts = count_robots(robots, quadrants)
 
     count = 1
