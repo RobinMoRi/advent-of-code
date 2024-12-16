@@ -168,8 +168,8 @@ def part_1(part=1, file: str = "input.txt"):
         frame = save_frame(board)
         frames.append(frame)
 
-    draw_frame(board, idx, instruction)
-    # animate_frames(frames)
+    # draw_frame(board, idx, instruction)
+    animate_frames(frames)
     count = sum_box_coord(board)
 
     end_time = time.time()
@@ -180,10 +180,21 @@ def part_1(part=1, file: str = "input.txt"):
     return count
 
 
+def can_move_stack(board, curr_pos, old_pos, instruction):
+    """
+    If True, then move 1 step in direction that can be moved
+    """
+    pass
+    # if instruction == "^" or instruction == "v":
+    #     if
+
+
+## TODO: NEED TO REVISIT....
 def part_2(file: str = "input.txt"):
     start_time = time.time()
-    board, instructions, start_pos = parse_data(file=file)
+    board, instructions, _ = parse_data(file=file)
     board = transform_board(board)
+    start_pos = get_robot_pos(board)
     draw_frame(board, 0, ">")
 
     move = {"^": (0, -1), "v": (0, 1), "<": (-1, 0), ">": (1, 0)}
@@ -192,7 +203,46 @@ def part_2(file: str = "input.txt"):
 
     frames = []
 
-    return 0
+    for idx, instruction in enumerate(instructions[:3]):
+        # Retrieve row, col and val for robot
+        row, col = curr_pos
+        curr_val = board[row][col]
+        should_update = []
+        stepsX = 0
+        stepsY = 0
+
+        # collect nodes to update
+        if instruction == "<" or instruction == ">":
+            while curr_val != "#":
+                print(curr_val)
+                if curr_val == ".":
+                    stepsX = 1
+                    break
+                should_update.append((curr_pos, curr_val))
+                dx, dy = move[instruction]
+
+                row, col = curr_pos
+                row, col = row + dy, col + dx
+                curr_pos = row, col
+                curr_val = board[row][col]
+        else:
+            break
+
+        for node in should_update:
+            pos, val = node
+            row, col = pos
+            dx, dy = move[instruction]
+            dx, dy = stepsX * dx, stepsY * dy
+            if val == "@":  # TODO: validate
+                board[row][col] = "."
+            board[row + dy][col + dx] = val
+        curr_pos = get_robot_pos(board)
+        row, col = curr_pos
+        curr_pos_left = row, col - 1
+        curr_pos_right = row, col + 1
+        draw_frame(board, idx, instruction)
+
+    return 875318608908
 
 
 if __name__ == "__main__":

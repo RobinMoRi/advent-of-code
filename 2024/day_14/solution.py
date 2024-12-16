@@ -3,6 +3,7 @@ import os
 import time
 import re
 from pprint import pprint
+import sys
 
 
 def get_lines(filename: str):
@@ -28,7 +29,7 @@ def get_robots(file) -> dict[str, list[int]]:
     return robots, num_robots
 
 
-def draw_frame(robots, max_rows, max_cols):
+def draw_frame(robots, max_rows, max_cols, idx=0):
     drawing = []
 
     for _ in range(0, max_rows):
@@ -48,7 +49,7 @@ def draw_frame(robots, max_rows, max_cols):
     for row in drawing:
         new_row = "".join(row)
         new_drawing.append(new_row)
-    return "\n".join(new_drawing)
+    return f"\n----- AFTER {idx+1} seconds -----\n" + "\n".join(new_drawing)
 
 
 def compute_quadrants(max_row, max_col):
@@ -100,14 +101,24 @@ def majority_robots_exist_in_quadrant(robots, quadrants, num_robots, threshold=0
     return False
 
 
+def animate_frames(frames):
+    for frame in frames:
+        sys.stdout.write("\x1b[3J\x1b[2J\x1b[H")
+        sys.stdout.write(frame)
+        sys.stdout.flush()
+        time.sleep(0.1)
+
+
 def part_1(part=1, file: str = "input.txt", max_cols=101, max_rows=103, seconds=100):
     start_time = time.time()
 
     robots, num_robots = get_robots(file=file)
     quadrants = compute_quadrants(max_rows, max_cols)
 
-    print("\n----- Init positions -----\n")
-    print(draw_frame(robots, max_cols=max_cols, max_rows=max_rows), "\n")
+    # print("\n----- Init positions -----\n")
+    # print(draw_frame(robots, max_cols=max_cols, max_rows=max_rows), "\n")
+
+    frames = []
 
     for idx in range(0, seconds):
         for robot_id, robot in robots.items():
@@ -131,10 +142,20 @@ def part_1(part=1, file: str = "input.txt", max_cols=101, max_rows=103, seconds=
 
             robots[robot_id] = [x, y, dx, dy]
 
-        if majority_robots_exist_in_quadrant(robots, quadrants, num_robots):
-            print(f"\n----- AFTER {idx+1} seconds -----\n")
-            print(draw_frame(robots, max_cols=max_cols, max_rows=max_rows), "\n")
+        if majority_robots_exist_in_quadrant(
+            robots, quadrants, num_robots, threshold=0.3
+        ):
+            frames.append(
+                draw_frame(robots, max_cols=max_cols, max_rows=max_rows, idx=idx)
+            )
+            if majority_robots_exist_in_quadrant(
+                robots, quadrants, num_robots, threshold=0.5
+            ):
+                break
+            # print(f"\n----- AFTER {idx+1} seconds -----\n")
+            # print(draw_frame(robots, max_cols=max_cols, max_rows=max_rows), "\n")
 
+    animate_frames(frames)
     robots_counts = count_robots(robots, quadrants)
 
     count = 1
@@ -150,12 +171,10 @@ def part_1(part=1, file: str = "input.txt", max_cols=101, max_rows=103, seconds=
 
 
 def part_2(file: str = "input.txt"):
-    count = part_1(
-        part=2, file=file, seconds=10000
-    )  # should not be 5k s- 10k (according to submission)
+    count = part_1(part=2, file=file, seconds=8200)
     return count
 
 
 if __name__ == "__main__":
-    part_1()
+    # part_1()
     part_2()

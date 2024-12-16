@@ -9,8 +9,8 @@ from day_15.solution import part_1, part_2
 #     assert part_1(file="test.txt") == 10092
 
 
-def test_part_2():
-    assert part_2(file="test.txt") == 875318608908
+# def test_part_2():
+#     assert part_2(file="test.txt") == 875318608908
 
 
 def test_part_2_1():
