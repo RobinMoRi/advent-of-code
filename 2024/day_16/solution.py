@@ -1,11 +1,9 @@
 from collections import defaultdict
 import os
 import time
-import re
-import sys
-from pprint import pprint
 import math
 from queue import PriorityQueue
+from pprint import pprint
 
 
 def get_lines(filename: str):
@@ -26,7 +24,6 @@ def read_graph(file):
     lines = get_lines(filename=file)
     max_rows = len(lines)
     max_cols = len(lines[0])
-    print(max_rows, max_cols)
 
     graph = defaultdict(list)
     deltas = {"up": (-1, 0), "right": (0, 1), "down": (1, 0), "left": (0, -1)}
@@ -88,6 +85,19 @@ def compute_weight(node, neighbour, curr_dir):
     return cost, position  # return the cost and the new current pointing direction
 
 
+def get_all_paths(end, end_dirs, dist, previous):
+    all_paths = []
+    for end_dir in end_dirs:
+        path = []
+        current_state = (end, end_dir)
+        while current_state is not None:
+            path.append(current_state)
+            current_state = previous[current_state]
+        path.reverse()
+        all_paths.append(path)
+    return all_paths
+
+
 def dijkstra(graph: dict, start, end, start_direction="right"):
     """
     Stealing some dijkstra from my 2022 shortest path solution :)
@@ -123,31 +133,32 @@ def dijkstra(graph: dict, start, end, start_direction="right"):
                 previous[(neighbour, new_dir)] = (current, curr_dir)
                 queue.put((candidate, neighbour, new_dir))
 
-    end_candidates = [(dist[(end, d)], d) for d in directions]
+    end_candidates = [
+        (dist[(end, d)], d) for d in directions if math.isfinite(dist[(end, d)])
+    ]
     total_cost, best_dir = min(end_candidates, key=lambda x: x[0])
-
-    if total_cost == math.inf:
-        return [], math.inf
 
     shortest_path = []
     current_state = (end, best_dir)
     while current_state is not None:
-        node, d = current_state
-        shortest_path.append(node)
+        shortest_path.append(current_state)
         current_state = previous[current_state]
 
     shortest_path.reverse()
 
-    return shortest_path, total_cost
+    return shortest_path, total_cost, best_dir
 
 
-def draw_path(file, path):
+def draw_path(file, path, marker=None):
     lines = get_lines(filename=file)
     new_lines = [list(line) for line in lines]
 
+    directions = {"right": ">", "left": "<", "up": "^", "down": "v"}
+
     for node in path:
-        row, col = node
-        new_lines[row][col] = "S"
+        post, direction = node
+        row, col = post
+        new_lines[row][col] = marker or directions[direction]
 
     return "\n".join(["".join(line) for line in new_lines])
 
@@ -155,26 +166,42 @@ def draw_path(file, path):
 def part_1(part=1, file: str = "input.txt"):
     start_time = time.time()
     graph, start, end = read_graph(file=file)
-    print(start, end)
-    path, cost = dijkstra(graph, start, end)
-    print(path)
-
-    print(draw_path(file=file, path=path))
+    path, cost, _ = dijkstra(graph, start, end)
 
     end_time = time.time()
     elapsed = end_time - start_time
     print(f"---- Part {part} ----")
     print("Elapsed time seconds: %5.2fms" % (elapsed * 1000))
     print(f"count: {cost}")
-    return cost
+    return path, cost
 
 
 def part_2(file: str = "input.txt"):
     start_time = time.time()
+    graph, start, end = read_graph(file=file)
+    path, cost, best_dir = dijkstra(graph, start, end)
+    path2, cost2, _ = dijkstra(graph, end, start, start_direction=best_dir)
 
-    return 875318608908
+    print("COST 1", cost)
+    print(draw_path(file, path, "O"), "\n\n")
+    print("COST 2", cost2)
+    print(draw_path(file, path2, "O"))
+
+    visited = set()
+    for pos, direction in path:
+        visited.add(pos)
+    for pos, direction in path2:
+        visited.add(pos)
+
+    count = len(visited)
+    end_time = time.time()
+    elapsed = end_time - start_time
+    print("---- Part 2 ----")
+    print("Elapsed time seconds: %5.2fms" % (elapsed * 1000))
+    print(f"count: {count}")
+    return count
 
 
 if __name__ == "__main__":
-    part_1()
-    # part_2()
+    # part_1()
+    part_2()
