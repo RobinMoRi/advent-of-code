@@ -4,6 +4,7 @@ import time
 import math
 from queue import PriorityQueue
 from pprint import pprint
+import sys
 
 
 def get_lines(filename: str):
@@ -150,6 +151,8 @@ def dijkstra(graph: dict, start, end, start_direction="right"):
 
 
 def draw_path(file, path, marker=None):
+    GREEN = "\033[32m"
+    RESET = "\033[0m"
     lines = get_lines(filename=file)
     new_lines = [list(line) for line in lines]
 
@@ -158,15 +161,30 @@ def draw_path(file, path, marker=None):
     for node in path:
         post, direction = node
         row, col = post
-        new_lines[row][col] = marker or directions[direction]
+        new_lines[row][col] = f"{GREEN}{marker or directions[direction]}{RESET}"
 
     return "\n".join(["".join(line) for line in new_lines])
+
+
+def animate_frames(file, path):
+    frames = []
+    for p in path:
+        frame = draw_path(file, [p])
+        frames.append(frame)
+
+    for frame in frames:
+        sys.stdout.write("\033[H\033[J")
+        sys.stdout.write(frame + "\n")
+        sys.stdout.flush()
+        time.sleep(0.2)
 
 
 def part_1(part=1, file: str = "input.txt"):
     start_time = time.time()
     graph, start, end = read_graph(file=file)
     path, cost, _ = dijkstra(graph, start, end)
+
+    animate_frames(file, path)
 
     end_time = time.time()
     elapsed = end_time - start_time
@@ -203,5 +221,5 @@ def part_2(file: str = "input.txt"):
 
 
 if __name__ == "__main__":
-    # part_1()
-    part_2()
+    part_1()
+    # part_2()
